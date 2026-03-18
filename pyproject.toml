@@ -113,3 +113,9 @@ disable_error_code = ["var-annotated"]
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+# ==============================================================================
+# 5. CONFIGURAÇÕES DO POETRY
+# ==============================================================================
+[tool.poetry]
+package-mode = false
