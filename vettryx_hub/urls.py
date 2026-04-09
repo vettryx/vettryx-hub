@@ -9,6 +9,11 @@ Define as rotas principais e o acesso ao painel administrativo do VETTRYX Hub.
 from django.contrib import admin
 from django.urls import include, path
 
+# --- CUSTOMIZAÇÃO GLOBAL DO PAINEL ADMIN ---
+admin.site.site_header = "VETTRYX Hub"
+admin.site.site_title = "Admin VETTRYX"
+admin.site.index_title = "Painel de Gestão Integrada"
+
 urlpatterns = [
     # Painel Administrativo do Django
     path("admin/", admin.site.urls),
