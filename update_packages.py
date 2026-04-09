@@ -106,9 +106,7 @@ def update_packages() -> None:
     poetry_exe = get_poetry_executable()
 
     print("Simulando atualização para verificar viabilidade...")
-    simulation_output = run_poetry_command(
-        poetry_exe, ["update", "--dry-run"], check=False
-    )
+    simulation_output = run_poetry_command(poetry_exe, ["update", "--dry-run"], check=False)
 
     if (
         "No dependencies to install or update" in simulation_output

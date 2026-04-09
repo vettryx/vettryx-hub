@@ -665,6 +665,20 @@ regex = ">=2023"
 tqdm = ">=4.62.2"
 
 [[package]]
+name = "dotenv"
+version = "0.9.9"
+description = "Deprecated package"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "dotenv-0.9.9-py2.py3-none-any.whl", hash = "sha256:29cf74a087b31dafdb5a446b6d7e11cbce8ed2741540e2339c69fbef92c94ce9"},
+]
+
+[package.dependencies]
+python-dotenv = "*"
+
+[[package]]
 name = "editorconfig"
 version = "0.17.1"
 description = "EditorConfig File Locator and Interpreter for Python"
@@ -1492,4 +1506,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14,<4.0"
-content-hash = "decc0c408236435ed01a9674d5fc1d8530da7290b018ecbbf515029599f63c59"
+content-hash = "a48ff1adbabb4ffa040de8d543312642e8d0a4f373f739e5f8f93a64dfd3c5da"
