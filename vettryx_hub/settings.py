@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "axes",
     "storages",
     # Aplicativos locais
+    'clients',
     "common",
 ]
 
