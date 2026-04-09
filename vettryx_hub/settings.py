@@ -34,18 +34,19 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Autenticação de dois fatores
-    "django_otp",
-    "django_otp.plugins.otp_static",
-    "django_otp.plugins.otp_totp",
+    # "django_otp",
+    # "django_otp.plugins.otp_static",
+    # "django_otp.plugins.otp_totp",
     # "two_factor",
     # Aplicativos de terceiros
     "axes",
+    'rest_framework',
     "storages",
     # Aplicativos locais
-    'clients',
     "common",
-    'licenses',
-    'modules',
+    "clients",
+    "licenses",
+    "modules",
 ]
 
 # --- CONFIGURAÇÃO DE MIDDLEWARE ---
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
+    # "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "axes.middleware.AxesMiddleware",
@@ -139,9 +140,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # --- CONFIGURAÇÃO DE LOGIN E REDIRECT ---
-LOGIN_URL = "two_factor:login"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "two_factor:login"
+LOGIN_URL = "admin:login"
+LOGIN_REDIRECT_URL = "admin:index"
+LOGOUT_REDIRECT_URL = "admin:login"
 
 # --- CONFIGURAÇÃO DE INTERNACIONALIZAÇÃO ---
 LANGUAGE_CODE = "pt-br"
@@ -212,3 +213,17 @@ AXES_RESET_ON_SUCCESS = True
 # Mensagem de erro que aparece para o usuário (Opcional, mas boa prática)
 AXES_LOCKOUT_TEMPLATE = None  # Usa o padrão do Django ou define um template seu depois
 AXES_LOCKOUT_PARAMETERS = ["username", "ip_address"]
+
+# --- CONFIGURAÇÕES DO DJANGO REST FRAMEWORK (API) ---
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'common.api_security.BearerLicenseAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'common.api_security.HasValidLicensePermission',
+    ],
+    # Retorna JSON por padrão (remove a interface web do DRF em produção)
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
