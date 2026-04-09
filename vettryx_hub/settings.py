@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Aplicativos locais
     'clients',
     "common",
+    'modules',
 ]
 
 # --- CONFIGURAÇÃO DE MIDDLEWARE ---

@@ -48,6 +48,7 @@ class AuxContactType(IdleBase):
     """
     Tabela Dominio: Define os meios de contato permitidos no sistema.
     Ex: E-mail, WhatsApp, Telefone Residencial, etc.
+    Tabela: aux_contact_type
     """
 
     name = models.CharField(max_length=255, unique=True, verbose_name="Nome")
@@ -65,6 +66,7 @@ class AuxModuleType(IdleBase):
     """
     Tabela Dominio: Categoriza os módulos da agência para controle de exibição/upsell.
     Ex: Core, Gratuito, Premium.
+    Tabela: aux_modules_types
     """
 
     name = models.CharField(max_length=255, unique=True, verbose_name="Nome")
@@ -73,6 +75,23 @@ class AuxModuleType(IdleBase):
         verbose_name = "Tipo de Módulo"
         verbose_name_plural = "Tipos de Módulos"
         db_table = "aux_modules_types"
+
+    def __str__(self):
+        return self.name
+
+
+class AuxPlatform(IdleBase):
+    """
+    Tabela Dominio: Define as plataformas/ecossistemas atendidos.
+    Ex: WordPress, Windows, Android, Web SaaS.
+    Tabela: aux_platforms
+    """
+    name = models.CharField(max_length=255, unique=True, verbose_name="Nome")
+
+    class Meta:
+        verbose_name = "Plataforma"
+        verbose_name_plural = "Plataformas"
+        db_table = "aux_platforms"
 
     def __str__(self):
         return self.name
