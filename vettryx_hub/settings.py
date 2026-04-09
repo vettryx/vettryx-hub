@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "clients",
     "licenses",
     "modules",
+    "telemetry",
 ]
 
 # --- CONFIGURAÇÃO DE MIDDLEWARE ---

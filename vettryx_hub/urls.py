@@ -14,6 +14,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     # --- Roteamento da API RESTful ---
-    # Qualquer requisição para /api/v1/licenses/ será tratada pelo app 'licenses'
     path("api/v1/licenses/", include("licenses.urls")),
+    path("api/v1/telemetry/", include("telemetry.urls")),
 ]
