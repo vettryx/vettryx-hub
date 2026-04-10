@@ -29,7 +29,7 @@ class Client(IdleBase):
 
     uid = models.BigIntegerField(
         unique=True,
-        blank=True,
+        editable=False,
         verbose_name="UID (Código Único)"
     )
     name = models.CharField(
