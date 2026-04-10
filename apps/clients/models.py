@@ -13,7 +13,7 @@ import unicodedata
 
 from common.models import ContactBase, IdleBase, NoteBase
 from django.db import models
-from django.db.models import Q
+from django.db.models import Max, Q
 
 
 class Client(IdleBase):
@@ -29,6 +29,7 @@ class Client(IdleBase):
 
     uid = models.BigIntegerField(
         unique=True,
+        blank=True,
         verbose_name="UID (Código Único)"
     )
     name = models.CharField(
@@ -75,7 +76,14 @@ class Client(IdleBase):
         ]
 
     def save(self, *args, **kwargs):
-        # Garante que o nome seja salvo em caixa alta e sem acentos
+        # 1. Geração automática do UID caso esteja vazio
+        if not self.uid:
+            # Busca o maior uid atualmente cadastrado na tabela
+            max_uid = Client.objects.aggregate(Max('uid'))['uid__max']
+            # Se não existir nenhum cliente ainda, começa do 1, senão soma 1 ao maior
+            self.uid = (max_uid or 0) + 1
+
+        # 2. Garante que o nome seja salvo em caixa alta e sem acentos
         if self.name:
             normalized = unicodedata.normalize('NFKD', self.name)
             clean_name = normalized.encode('ASCII', 'ignore').decode('utf-8')
@@ -86,18 +94,26 @@ class Client(IdleBase):
             clean_fantasy = normalized_fantasy.encode('ASCII', 'ignore').decode('utf-8')
             self.fantasy_name = clean_fantasy.strip().upper()
 
-        # Limpeza de CPF/CNPJ (Mantém apenas números)
+        # 3. Limpeza de CPF/CNPJ (Mantém apenas números)
         if self.cpf_cnpj:
             self.cpf_cnpj = re.sub(r'[^0-9]', '', self.cpf_cnpj)
 
-        # Limpeza de RG/IE (Remove pontos, traços e barras)
+        # 4. Limpeza de RG/IE (Remove pontos, traços e barras)
         if self.rg_ie:
             self.rg_ie = re.sub(r'[\.\-\/]', '', self.rg_ie).strip().upper()
 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f"[{self.uid_formatted}] {self.name}"
+
+    @property
+    def uid_formatted(self):
+        """
+        Retorna o UID formatado com 6 dígitos (ex: 000011).
+        Ideal para usar em templates e painéis administrativos.
+        """
+        return f"{self.uid:06d}" if self.uid else "000000"
 
 
 class ClientContact(NoteBase, ContactBase):
