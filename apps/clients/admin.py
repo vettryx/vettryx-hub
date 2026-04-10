@@ -21,8 +21,9 @@ class ClientContactInline(admin.TabularInline):
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ("uid", "name", "person_type", "cpf_cnpj", "idle")
+    list_display = ("uid_formatted", "name", "person_type", "cpf_cnpj", "idle")
     list_filter = ("person_type", "idle")
     search_fields = ("name", "fantasy_name", "cpf_cnpj", "uid")
     ordering = ("name",)
     inlines = [ClientContactInline]
+    readonly_fields = ("uid_formatted",)

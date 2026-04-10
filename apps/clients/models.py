@@ -12,6 +12,7 @@ import re
 import unicodedata
 
 from common.models import ContactBase, IdleBase, NoteBase
+from django.contrib import admin
 from django.db import models
 from django.db.models import Max, Q
 
@@ -108,12 +109,17 @@ class Client(IdleBase):
         return f"[{self.uid_formatted}] {self.name}"
 
     @property
+    @admin.display(description="UID", ordering="uid")
     def uid_formatted(self):
         """
-        Retorna o UID formatado com 6 dígitos (ex: 000011).
+        Retorna o UID formatado com no mínimo 6 dígitos e separador (ex: 000.011).
         Ideal para usar em templates e painéis administrativos.
         """
-        return f"{self.uid:06d}" if self.uid else "000000"
+        if not self.uid:
+            return "000.000"
+
+        uid_str = f"{self.uid:06d}"
+        return f"{uid_str[:-3]}.{uid_str[-3:]}"
 
 
 class ClientContact(NoteBase, ContactBase):
